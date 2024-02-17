@@ -60,6 +60,7 @@ function Home() {
                     //@ts-ignore
                     handleUpdate={(userId) => {
                         router.push(`/user/${userId}`)
+                        //@ts-ignore
                         mutate()
                     }}
                     handleDelete={(userId) => removeBasesData(userId)}
