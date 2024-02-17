@@ -39,7 +39,7 @@ const TableCrud: React.FC<TableProps> = ({data = [], loading = false, handleDele
                         <>
                             {!data.length ? (
                                 <TableRow>
-                                    <TableCell colSpan={3} align="center">...NO DATA...</TableCell>
+                                    <TableCell colSpan={3} align="center">... NO DATA ...</TableCell>
                                 </TableRow>
                             ) : (
                                 data.map((item) => (
