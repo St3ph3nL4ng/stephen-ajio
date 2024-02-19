@@ -9,7 +9,7 @@ export function deleteUserHook() {
                 method: 'DELETE',
             });
             mutate()
-            console.log('User deleted successfully');
+            console.log(res, 'User deleted successfully');
         } catch (error) {
             console.error('Error:', error);
             throw error;
