@@ -1,41 +1,11 @@
 'use client'
 import React from "react"
-import {Box, Button, TextField, Typography} from "@mui/material";
 import styles from "@/app/page.module.css";
-import useSWR from 'swr';
 import {updateUserHook} from "@/app/hook/updateUserHook";
-import {SubmitHandler, useForm} from 'react-hook-form';
+import {Box, Button, TextField, Typography} from "@mui/material";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-interface User {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-}
-
-interface FormData {
-    name: string;
-}
-
-export default function UserRead({params}: { params: { id: number } }) {
-    const {data: user,} = useSWR<User>(`/api/user/${params.id}`, fetcher);
-
-    const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormData>();
-
-    const {handleSaveNewUser} = updateUserHook(params.id)
-
-    React.useEffect(() => {
-        if (user) {
-            setValue('name', user.name);
-        }
-    }, [user, setValue])
-
-    const onSubmit: SubmitHandler<FormData> = (data) => {
-        handleSaveNewUser({name: data?.name})
-    };
-
+export default function UserRead() {
+    const {handleSaveNewUser, updateRegister, isError, isLoading} = updateUserHook()
 
     return (
         <React.Fragment>
@@ -47,7 +17,7 @@ export default function UserRead({params}: { params: { id: number } }) {
                 }}
             >
                 <Typography variant={"h4"} sx={{color: "#f7b500"}}>UPDATE</Typography>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSaveNewUser}>
                     <Box sx={{display: "flex", gap: "1rem", marginTop: "1rem"}}>
                         <Box
                             sx={{
@@ -56,10 +26,11 @@ export default function UserRead({params}: { params: { id: number } }) {
                             }}
                         >
                             <TextField
+                                hiddenLabel
                                 id="outlined"
-                                label="Outlined"
+                                placeholder="Update"
                                 variant="outlined"
-                                {...register('name', {required: 'Name is required'})}
+                                {...updateRegister}
                             />
                         </Box>
                         <Box
@@ -77,11 +48,13 @@ export default function UserRead({params}: { params: { id: number } }) {
                                     padding: "10px 20px",
                                 }}
                             >
-                                Update
+                                {isLoading ? "Updating..." : "Update"}
                             </Button>
                         </Box>
                     </Box>
-
+                    <Box sx={{color: "red"}}>
+                        {isError}
+                    </Box>
                 </form>
             </Box>
         </React.Fragment>

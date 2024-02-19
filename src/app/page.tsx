@@ -26,8 +26,9 @@ function Home() {
                         }}
                     >
                         <TextField
+                            hiddenLabel
                             id="outlined"
-                            label="Outlined"
+                            placeholder="Create"
                             variant="outlined"
                             {...isNewUser}
                         />
@@ -63,7 +64,7 @@ function Home() {
                         //@ts-ignore
                         mutate()
                     }}
-                    handleDelete={(userId) => removeBasesData(userId)}
+                    handleDelete={(id) => removeBasesData(id)}
                 />
             </Box>
         </main>

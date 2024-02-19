@@ -1,10 +1,7 @@
 import useSWR from "swr";
-
+import fetcher from "@/app/lib/fetcher"
 
 export function userListHook() {
-    // @ts-ignore
-    const fetcher = (...args) => fetch(...args).then(res => res.json())
-
     const {data: users, error, isLoading, mutate} = useSWR(
         '/api/user',
         fetcher,

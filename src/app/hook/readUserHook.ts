@@ -1,4 +1,6 @@
 import useSWR from "swr";
+import fetcher from "@/app/lib/fetcher"
+
 
 export interface User {
     id: number;
@@ -6,9 +8,6 @@ export interface User {
 }
 
 export function readUserHook(userId: number) {
-    // @ts-ignore
-    const fetcher = (...args) => fetch(...args).then(res => res.json())
-
     const {data: user, error, isLoading, mutate} = useSWR<User>(
         `/api/user/${userId}`, fetcher,
         {

@@ -1,28 +1,38 @@
-import axios from "axios";
-import {useForm} from "react-hook-form";
 import React from "react";
-import {useRouter} from 'next/navigation';
+import axios from "axios";
+import useSWR from "swr";
+import {useForm} from "react-hook-form";
+import {useParams, useRouter} from "next/navigation";
+import fetcher from "@/app/lib/fetcher"
 
 interface FormData {
-    name: string;
     id: number
+    name: string;
 }
 
-export function updateUserHook(userId: number) {
-    const router = useRouter();
-    const {register, setValue, reset, formState: {errors},} = useForm<FormData>();
+export function updateUserHook() {
+    const {id} = useParams();
+    const router = useRouter()
     const [isLoading, setIsLoading] = React.useState(false);
+
+    const {register, setValue, handleSubmit, formState: {errors}} = useForm<FormData>();
+    const {data: user} = useSWR<FormData>(`/api/user/${id}`, fetcher);
+
+    React.useEffect(() => {
+        if (user) {
+            setValue('name', user.name);
+        }
+    }, [user, setValue])
 
     const handleSaveNewUser = async (data: FormData) => {
         const {name} = data
         try {
             const response = await axios.put(
-                `/api/user/${userId}`, {name},
+                `/api/user/${id}`, {name},
                 {headers: {"Content-Type": "application/json"},}
             );
             console.log("hook: ", name, response.data);
-            alert("SUCCESSSS")
-            // router.push('/')
+            router.push('/')
             return response.data;
         } catch (error) {
             console.error(error);
@@ -31,11 +41,9 @@ export function updateUserHook(userId: number) {
     };
 
     return {
-        handleSaveNewUser,
-        isNewUser: register("name", {required: "Name is required"}),
+        handleSaveNewUser: handleSubmit(handleSaveNewUser),
+        updateRegister: register("name", {required: "Name is required"}),
         isError: errors.name?.message,
         isLoading,
-        register,
-        setValue,
     };
 }

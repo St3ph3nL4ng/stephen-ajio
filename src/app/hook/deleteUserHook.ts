@@ -3,9 +3,9 @@ import {userListHook} from "@/app/hook/userListHook";
 
 export function deleteUserHook() {
     const {mutate} = userListHook();
-    const removeBasesData = async (userId: string) => {
+    const removeBasesData = async (id: string) => {
         try {
-            const response = await fetch(`/api/user/${userId}`, {
+            const res = await fetch(`/api/user/${id}`, {
                 method: 'DELETE',
             });
             mutate()

@@ -11,10 +11,11 @@ export function createUserHook() {
     const {register, handleSubmit, reset, formState: {errors},} = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
+        const {name} = data
         try {
             const response = await axios.post(
                 "/api/user",
-                data,
+                {name},
                 {
                     headers: {
                         "Content-Type": "application/json",
