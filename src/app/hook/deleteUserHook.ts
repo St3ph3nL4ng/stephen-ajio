@@ -1,9 +1,11 @@
-'user client'
+import React from "react";
 import {userListHook} from "@/app/hook/userListHook";
 
 export function deleteUserHook() {
     const {mutate} = userListHook();
-    const removeBasesData = async (id: string) => {
+    const [openModal, setOpenModal] = React.useState(false);
+    const [modalId, setModalId] = React.useState(false);
+    const removeBasesData = async (id: boolean) => {
         try {
             const res = await fetch(`/api/user/${id}`, {
                 method: 'DELETE',
@@ -16,5 +18,5 @@ export function deleteUserHook() {
         }
     };
 
-    return {removeBasesData};
+    return {removeBasesData, openModal, setOpenModal, modalId, setModalId};
 }

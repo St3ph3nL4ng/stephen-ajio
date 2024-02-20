@@ -4,11 +4,7 @@ import useSWR from "swr";
 import {useForm} from "react-hook-form";
 import {useParams, useRouter} from "next/navigation";
 import fetcher from "@/app/lib/fetcher"
-
-interface FormData {
-    id: number
-    name: string;
-}
+import FormData from "@/app/components/types/FormData";
 
 export function updateUserHook() {
     const {id} = useParams();
@@ -40,8 +36,13 @@ export function updateUserHook() {
         }
     };
 
+    const handleBack = () => {
+        router.back()
+    }
+
     return {
         handleSaveNewUser: handleSubmit(handleSaveNewUser),
+        handleBack,
         updateRegister: register("name", {required: "Name is required"}),
         isError: errors.name?.message,
         isLoading,

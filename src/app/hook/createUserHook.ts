@@ -1,10 +1,7 @@
 import axios from "axios";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {userListHook} from "@/app/hook/userListHook";
-
-interface FormData {
-    name: string;
-}
+import FormData from "@/app/components/types/FormData";
 
 export function createUserHook() {
     const {mutate} = userListHook();
@@ -23,7 +20,7 @@ export function createUserHook() {
                 }
             );
             console.log("response", response.data);
-            reset(); // Reset the form after submission
+            reset();
             mutate();
             return response.data;
         } catch (error) {

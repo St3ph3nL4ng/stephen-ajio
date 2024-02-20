@@ -1,22 +1,22 @@
 'use client'
 import React from "react"
-import styles from "@/app/page.module.css";
 import {updateUserHook} from "@/app/hook/updateUserHook";
-import {Box, Button, TextField, Typography} from "@mui/material";
+import {Box, TextField, Typography} from "@mui/material";
+import Button from "@/app/components/common/Button";
 
 export default function UserRead() {
-    const {handleSaveNewUser, updateRegister, isError, isLoading} = updateUserHook()
+    const {handleSaveNewUser, handleBack, updateRegister, isError} = updateUserHook()
 
     return (
         <React.Fragment>
             <Box
-                className={styles.main}
+                className={"homePage"}
                 sx={{
                     width: "100%",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
                 }}
             >
-                <Typography variant={"h4"} sx={{color: "#f7b500"}}>UPDATE</Typography>
+                <Typography variant={"h4"} sx={{color: "#f7b500"}}>更新</Typography>
                 <form onSubmit={handleSaveNewUser}>
                     <Box sx={{display: "flex", gap: "1rem", marginTop: "1rem"}}>
                         <Box
@@ -36,20 +36,20 @@ export default function UserRead() {
                         <Box
                             sx={{
                                 display: "flex",
+                                gap: "1rem",
                                 width: "auto",
-                                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
                             }}
                         >
                             <Button
-                                type="submit"
-                                style={{
-                                    color: "#f7b500",
-                                    border: "1px solid #f7b500",
-                                    padding: "10px 20px",
-                                }}
-                            >
-                                {isLoading ? "Updating..." : "Update"}
-                            </Button>
+                                type={"submit"}
+                                name={"更新"}
+                                className={"updateColor updateColorBtn"}
+                            />
+                            <Button
+                                onClickButton={handleBack}
+                                name={"裏面"}
+                                className={"cancelColor cancelColorBtn"}
+                            />
                         </Box>
                     </Box>
                     <Box sx={{color: "red"}}>
